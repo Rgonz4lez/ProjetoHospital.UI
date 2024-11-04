@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus produtos</title>
+    <link rel="shortcut icon" href="./assets/icons/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./ProdutoStyle.css">
+</head>
+<body>
+    <header class="bar">
+        <div id="logo" >
+            <img src="/src/assets/images/logo.png" alt="Logo verde médio">
+        </div>
+        <div class="titulo">
+            <h1>Meus Produtos</h1>
+        </div>
+        <div class="ajuda">
+            <img src="/src/assets/icons/Frame 879.png" alt="notificação e ajuda">
+        </div>
+    </header>
+    <main>
+        <section id="produtos">
+            <h2>Produtos</h2>
+        </section>
+
+        <div class="buscar">
+            <img src="/src/assets/icons/btn-buscar.png" alt="Botão de Buscar">
+            <input type="text" id="buscar-list" placeholder="Buscar por nome, status ou ID de origem">
+        </div>
+        <section class="Listagem" id="lista-produtos">
+            <ul id="lista-produtos"></ul>
+            <script>
+                async function fetchProdutos() {
+                    try {
+                        const response = await fetch('http://localhost:8080/api/produtos/listar');
+                        if (!response.ok) {
+                            throw new Error('Erro na rede: ' + response.status);
+                        }
+                        const produtos = await response.json();
+                        const lista = document.getElementById('lista-produtos');
+        
+                        lista.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+        
+                        produtos.forEach(produto => {
+                            const li = document.createElement('li');
+                            li.textContent = `${produto.nome} - ${produto.descricao}`; // Utiliza textContent para evitar XSS
+                            lista.appendChild(li);
+                        });
+                    } catch (error) {
+                        console.error('Erro ao buscar produtos:', error);
+                        alert('Erro ao carregar produtos. Tente novamente mais tarde.'); // Mensagem de erro amigável
+                    }
+                }
+        
+                document.addEventListener('DOMContentLoaded', fetchProdutos); // Chama a função quando o DOM está carregado
+            </script>
+        </div>
+    </main>
+</body>
+</html>

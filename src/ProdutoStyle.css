@@ -1,0 +1,57 @@
+:root{
+    font-family: Lato;
+
+    --neutral-01: #353535;
+    --neutral-02:#696969;
+    --neutral-03: #9e9e9e;
+    --neutral-04:#cccc;
+    --neutral-05:#ebebeb;
+    --neutral-06: #ffff;
+
+    --brand-01:#1D3C55;
+    --brand-02: #45647D;
+    --brand-03: #0E718A;
+    --brand-04:#068293;
+    --brnad-05: #C7EBED;
+    --brand-06: #F2F4F8;
+
+}
+
+*{
+    margin: 0%;
+}
+
+.bar{
+    display: flex;
+    height: 56px;
+    width: 1366px;
+    background-color: var(--neutral-06);
+    flex-direction: row;
+    padding: 10px 10px;
+    align-items: center;
+}
+
+.logo{
+    width: 342px;
+    height: 56px;
+    display: flex;
+    padding: 10px 10px;
+}
+
+.titulo{
+    padding: 20px 80px;
+}
+
+.ajuda{
+    align-items: left;
+    padding-left: 90%;
+    display: flex;
+}
+
+main{
+    background: var(--neutral-04);
+}
+
+.buscar-list{
+    width: 976px;
+}
