@@ -40,20 +40,20 @@
                         const produtos = await response.json();
                         const lista = document.getElementById('lista-produtos');
         
-                        lista.innerHTML = ''; // Limpa a lista antes de adicionar novos itens
+                        lista.innerHTML = ''; 
         
                         produtos.forEach(produto => {
                             const li = document.createElement('li');
-                            li.textContent = `${produto.nome} - ${produto.descricao}`; // Utiliza textContent para evitar XSS
+                            li.textContent = `${produto.nome} - ${produto.descricao}`;
                             lista.appendChild(li);
                         });
                     } catch (error) {
                         console.error('Erro ao buscar produtos:', error);
-                        alert('Erro ao carregar produtos. Tente novamente mais tarde.'); // Mensagem de erro amigável
+                        alert('Erro ao carregar produtos. Tente novamente mais tarde.'); 
                     }
                 }
         
-                document.addEventListener('DOMContentLoaded', fetchProdutos); // Chama a função quando o DOM está carregado
+                document.addEventListener('DOMContentLoaded', fetchProdutos); 
             </script>
         </div>
     </main>
