@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Produtos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #resultado {
+      margin-top: 20px;
+    }
+    .produto {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cotações</h1>
+
+  <!-- Formulário de busca -->
+  <label for="campoBusca">Digite o ID ou nome do produto:</label>
+  <input type="text" id="campoBusca" placeholder="ID ou nome do produto">
+  <button onclick="buscarProduto()">Buscar</button>
+
+  <!-- Resultado da busca -->
+  <div id="resultado"></div>
+
+  <script>
+    // URL da API que retorna os produtos
+    const apiUrl = 'http://localhost:8080/api/produtos/listar';
+
+    // Função de busca
+    async function buscarProduto() {
+      const busca = document.getElementById('campoBusca').value.toLowerCase();
+      const resultadoDiv = document.getElementById('resultado');
+
+      // Limpar resultados anteriores
+      resultadoDiv.innerHTML = 'Carregando...';
+
+      try {
+        // Fazendo a requisição para a API
+        const response = await fetch(apiUrl);
+        const produtos = await response.json();
+
+        // Filtra os produtos que correspondem ao ID ou nome (case insensitive)
+        const resultados = produtos.filter(produto => 
+          produto.id.toString().includes(busca) || produto.nome.toLowerCase().includes(busca)
+        );
+
+        // Exibe os resultados
+        resultadoDiv.innerHTML = '';
+        if (resultados.length > 0) {
+          resultados.forEach(produto => {
+            const produtoDiv = document.createElement('div');
+            produtoDiv.classList.add('produto');
+            produtoDiv.innerHTML = `
+              <strong>${produto.nome}</strong> (ID: ${produto.id})<br>
+              Descrição: ${produto.descricao}
+            `;
+            resultadoDiv.appendChild(produtoDiv);
+          });
+        } else {
+          resultadoDiv.innerHTML = 'Nenhum produto encontrado.';
+        }
+      } catch (error) {
+        // Em caso de erro, exibe uma mensagem de erro
+        resultadoDiv.innerHTML = 'Erro ao carregar os produtos. Tente novamente mais tarde.';
+        console.error(error);
+      }
+    }
+  </script>
+
+</body>
+</html>
