@@ -16,19 +16,28 @@
     --brand-06: #F2F4F8;
 
 }
-
-*{
-    margin: 0%;
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
 }
 
-.bar{
-    display: flex;
+#resultado {
+    margin-top: 20px;
+}
+.produto {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+header{
+    display: flex;    
     height: 56px;
     width: 1366px;
     background-color: var(--neutral-06);
     flex-direction: row;
-    padding: 10px 10px;
     align-items: center;
+    padding: 10px 10px;
 }
 
 .logo{
