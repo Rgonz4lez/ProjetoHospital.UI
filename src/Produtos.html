@@ -6,6 +6,7 @@
     <title>Meus produtos</title>
     <link rel="shortcut icon" href="./assets/icons/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="ProdutoStyle.css">
+    <script src="Scripts.js"></script>
 </head>
 <body>
     <header class="header">
@@ -23,76 +24,17 @@
     <main>
         <section id="produtos">
             <input type="text" id="campoBusca" placeholder="Busque pelo ID ou nome da cotação">
-            <button onclick="buscarProduto()">Buscar</button>
+            <button onclick="fetchProdutos()"><svg width="25" height="25" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M11.8162 10.6912H11.2237L11.0137 10.4887C11.7487 9.63372 12.1912 8.52372 12.1912 7.31622C12.1912 4.62372 10.0087 2.44122 7.31622 2.44122C4.62372 2.44122 2.44122 4.62372 2.44122 7.31622C2.44122 10.0087 4.62372 12.1912 7.31622 12.1912C8.52372 12.1912 9.63372 11.7487 10.4887 11.0137L10.6912 11.2237V11.8162L14.4412 15.5587L15.5587 14.4412L11.8162 10.6912ZM7.31622 10.6912C5.44872 10.6912 3.94122 9.18372 3.94122 7.31622C3.94122 5.44872 5.44872 3.94122 7.31622 3.94122C9.18372 3.94122 10.6912 5.44872 10.6912 7.31622C10.6912 9.18372 9.18372 10.6912 7.31622 10.6912Z" fill="#068293"/>
+            </svg>
+            
+            <div class="abas">
+                <button id="ATIVOS-ab" onclick="CarregarProdutos('ATIVOS')"> ATIVOS </button>
+                <button id="INATIVOS-ab" onclick="CarregarProdutos('INATIVOS')"> INATIVOS </button>
+            </div>
+        </button>
+            <div id="lista-produtos"></div>
         </section>
-
-        <div id="resultado"></div>
-
-        <script>
-            const apiUrl = 'http://localhost:8080/api/produtos/listar';
-
-            async function buscarProduto() {
-                const busca = document.getElementById('campoBusca').value.toLowerCase();
-                const resultadoDiv = document.getElementById('resultado');
-                resultadoDiv.innerHTML = 'Carregando...';
-                
-                try {
-                    const response = await fetch(apiUrl);
-                    const produtos = await response.json();
-                    const resultados = produtos.filter(produto =>
-                        produto.id.toString().includes(busca) || produto.nome.toLowerCase().includes(busca)
-                    );
-
-                    resultadoDiv.innerHTML = '';
-
-                    if (resultados.length > 0) {
-                        resultados.forEach(produto => {
-                            const produtoDiv = document.createElement('div');
-                            produtoDiv.classList.add('produto');
-                            produtoDiv.innerHTML = `
-                                <strong>${produto.nome}</strong> (ID: ${produto.id})<br>
-                                Descrição: ${produto.descricao}`;
-                            resultadoDiv.appendChild(produtoDiv);
-                        });
-                    } else {
-                        resultadoDiv.innerHTML = 'Nenhum produto encontrado.';
-                    }
-
-                } catch (error) {
-                    resultadoDiv.innerHTML = 'Erro ao carregar os produtos. Tente novamente mais tarde.';
-                    console.error(error);
-                }
-            }
-        </script>
-
-        <section class="Listagem" id="lista-produtos">
-            <ul id="lista-produtos"></ul>
-        </section>
-
-        <script>
-            async function fetchProdutos() {
-                try {
-                    const response = await fetch('http://localhost:8080/api/produtos/listar');
-                    if (!response.ok) {
-                        throw new Error('Erro na rede: ' + response.status);
-                    }
-                    const produtos = await response.json();
-                    const lista = document.getElementById('lista-produtos');
-                    lista.innerHTML = ''; 
-                    produtos.forEach(produto => { 
-                        const li = document.createElement('li');
-                        li.textContent = `${produto.nome} - ${produto.descricao}`;
-                        lista.appendChild(li);
-                    });
-                } catch (error) {
-                    console.error('Erro ao buscar produtos:', error);
-                    alert('Erro ao carregar produtos. Tente novamente mais tarde.'); 
-                }
-                console.log("Produtos carregados");
-            }
-
-            document.addEventListener('DOMContentLoaded', fetchProdutos); 
-        </script>
     </main>
 </body>
 </html>
