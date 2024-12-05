@@ -1,4 +1,4 @@
-const apiUrl = 'http://localhost:8080/api/produtos/listar';
+const apiUrl = 'http://localhost:8081/api/produtos/listar';
 
 const busca = document.getElementById('campoBusca').value.toLowerCase();
 const resultadoDiv = document.getElementById('lista-produtos');
@@ -25,11 +25,11 @@ async function buscarProduto() {
                 resultadoDiv.appendChild(produtoDiv);
             });
         } else {
-            resultadoDiv.innerHTML = 'Nenhum produto encontrado.';
+            resultadoDiv.textContent = 'Nenhum produto encontrado.';
         }
 
     } catch (error) {
-        resultadoDiv.innerHTML = 'Erro ao carregar os produtos. Tente novamente mais tarde.';
+        resultadoDiv.textContent = 'Erro ao carregar os produtos. Tente novamente mais tarde.';
         console.error(error);
     }
 }
