@@ -1,42 +1,56 @@
-const apiUrl = 'http://localhost:8081/api/produtos/listar';
-
-const busca = document.getElementById('campoBusca').value.toLowerCase();
-const resultadoDiv = document.getElementById('lista-produtos');
-resultadoDiv.innerHTML = 'Carregando...';
-
+const apiUrl = 'http://localhost:8081/api/produtos/listar'
+ 
+let resultadoDiv;
 
 async function buscarProduto() {    
+
+    const lista = document.getElementById('lista-produtos');
+    const busca = document.getElementById('campoBusca').value.toLowerCase();
+
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+        });
+
+        lista.innerHTML = '';
         const produtos = await response.json();
         const resultados = produtos.filter(produto =>
             produto.id.toString().includes(busca) || produto.nome.toLowerCase().includes(busca)
         );
-
-        resultadoDiv.innerHTML = '';
 
         if (resultados.length > 0) {
             resultados.forEach(produto => {
                 const produtoDiv = document.createElement('div');
                 produtoDiv.classList.add('produto');
                 produtoDiv.innerHTML = `
-                    <strong>${produto.nome}</strong> (ID: ${produto.id})<br>
+                    <strong>${produto.nome}</strong> ID: ${produto.id}<br>
                     Descrição: ${produto.descricao}`;
-                resultadoDiv.appendChild(produtoDiv);
+                lista.appendChild(produtoDiv);
             });
         } else {
-            resultadoDiv.textContent = 'Nenhum produto encontrado.';
+            lista.textContent = 'Nenhum produto encontrado.';
         }
 
     } catch (error) {
-        resultadoDiv.textContent = 'Erro ao carregar os produtos. Tente novamente mais tarde.';
+        lista.textContent = 'Erro ao carregar os produtos. Tente novamente mais tarde.';
         console.error(error);
     }
 }
 
 async function fetchProdutos() {
+
     try {
-        const response = await fetch(apiUrl);
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                }
+        });
         if (!response.ok) {
             throw new Error('Erro na rede: ' + response.status);
         }
@@ -48,7 +62,7 @@ async function fetchProdutos() {
             const produtoDiv = document.createElement('div');
             produtoDiv.classList.add('produto');
             produtoDiv.innerHTML = `
-                <strong>${produto.nome}</strong> ID: ${produto.id}<br>
+                <strong>${produto.nome}</strong> ID - ${produto.id}<br>
                 Descrição: ${produto.descricao}`;
             lista.appendChild(produtoDiv);
         });
@@ -60,4 +74,7 @@ async function fetchProdutos() {
     console.log("Produtos carregados");
 }
 
-document.addEventListener('DOMContentLoaded', fetchProdutos);
+document.addEventListener('DOMContentLoaded', () => {
+    fetchProdutos();
+    document.getElementById('campoBusca').addEventListener('input', buscarProduto); 
+});

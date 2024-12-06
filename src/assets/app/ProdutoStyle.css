@@ -24,10 +24,13 @@ body {
     background-color: var(--neutral-05);
 }
 
+header.logo{
+    position: absolute;
+}
+
 header.header {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     padding: 10px 20px;
     background-color: var(--neutral-06);
     color: var(--brand-01) ;
@@ -35,10 +38,13 @@ header.header {
 
 header .section h1 {
     font-size: 24px;
-    align-items: last baseline;
+    margin-left: 200%;
+    align-items: center;
+    justify-items: center;
 }
 
-#produtos {
+#produto {
+    margin-left: 20px;
     margin: 20px;
     display: block;
     justify-content: space-between;
@@ -51,16 +57,13 @@ header .section h1 {
     font-size: 16px;
     border-radius: 10px;
     border: none ;
+    margin-left: 18px;
 }
 
 button {
-    padding: 8px 16px;
+    padding:none;
     border: none;
     cursor: pointer;
-}
-
-button:hover {
-    background-color: #005f73;
 }
 
 #resultado, #lista-produtos {

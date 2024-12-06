@@ -1,7 +1,7 @@
 document.getElementById('signup-form').addEventListener('submit', function (event) {
     event.preventDefault(); 
 
-    const apiUrl = 'localhost:8081/autenticar/registro'
+    const apiUrl = 'http://localhost:8081/auth/register';
 
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
@@ -13,23 +13,29 @@ document.getElementById('signup-form').addEventListener('submit', function (even
         return;
     }
 
-    const userData = {
+    const user= {
         name: name,
         email: email,
         password: password
     };
-    registerUser(userData);
+
+    registerUser(user);
 });
 
-function registerUser(userData) {
+function registerUser(user) {
     fetch(apiUrl , {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData) 
+        body: JSON.stringify(user) 
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Erro na requisição: ${response.statusText}`);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             alert('Cadastro realizado com sucesso!');
